@@ -1,0 +1,89 @@
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 1, "time_s": 0.48, "frame": 12, "zone": "walkway_left", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 1, "time_s": 0.48, "frame": 12, "zone": "center", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 3, "time_s": 0.48, "frame": 12, "zone": "walkway_right", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 4, "time_s": 0.48, "frame": 12, "zone": "walkway_right", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 5, "time_s": 0.48, "frame": 12, "zone": "walkway_left", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 6, "time_s": 0.48, "frame": 12, "zone": "walkway_right", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 7, "time_s": 0.48, "frame": 12, "zone": "walkway_right", "start_s": 0.48}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 9, "time_s": 0.76, "frame": 19, "zone": "walkway_left", "start_s": 0.76}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 10, "time_s": 1.08, "frame": 27, "zone": "walkway_left", "start_s": 1.08}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 8, "time_s": 1.28, "frame": 32, "zone": "walkway_right", "start_s": 1.28}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 5, "time_s": 1.28, "frame": 32, "zone": "walkway_left", "start_s": 0.48, "dwell_s": 0.84}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 10, "time_s": 1.56, "frame": 39, "zone": "walkway_left", "start_s": 1.08, "dwell_s": 0.52}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 8, "time_s": 1.56, "frame": 39, "zone": "walkway_right", "start_s": 1.28, "dwell_s": 0.32}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 12, "time_s": 1.8, "frame": 45, "zone": "walkway_left", "start_s": 1.8}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 11, "time_s": 2.04, "frame": 51, "zone": "walkway_left", "start_s": 2.04}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 8, "time_s": 2.24, "frame": 56, "zone": "walkway_right", "start_s": 2.24}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 10, "time_s": 2.84, "frame": 71, "zone": "walkway_left", "start_s": 2.84}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 9, "time_s": 2.68, "frame": 67, "zone": "walkway_left", "start_s": 0.76, "dwell_s": 1.96}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 1, "time_s": 3.6, "frame": 90, "zone": "walkway_left", "start_s": 0.48, "dwell_s": 3.16}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 1, "time_s": 3.6, "frame": 90, "zone": "center", "start_s": 0.48, "dwell_s": 3.16}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 14, "time_s": 3.96, "frame": 99, "zone": "walkway_left", "start_s": 3.96}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 14, "time_s": 3.96, "frame": 99, "zone": "center", "start_s": 3.96}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 2, "time_s": 4.16, "frame": 104, "zone": "walkway_left", "start_s": 4.16}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 2, "time_s": 4.16, "frame": 104, "zone": "center", "start_s": 4.16}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 11, "time_s": 4.04, "frame": 101, "zone": "walkway_left", "start_s": 2.04, "dwell_s": 2.04}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 12, "time_s": 4.2, "frame": 105, "zone": "walkway_left", "start_s": 1.8, "dwell_s": 2.44}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 9, "time_s": 4.48, "frame": 112, "zone": "walkway_left", "start_s": 4.48}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 14, "time_s": 4.64, "frame": 116, "zone": "walkway_left", "start_s": 3.96, "dwell_s": 0.72}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 6, "time_s": 5.12, "frame": 128, "zone": "walkway_right", "start_s": 0.48, "dwell_s": 4.68}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 11, "time_s": 5.32, "frame": 133, "zone": "walkway_left", "start_s": 5.32}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 17, "time_s": 5.68, "frame": 142, "zone": "walkway_left", "start_s": 5.68}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 11, "time_s": 5.76, "frame": 144, "zone": "walkway_left", "start_s": 5.32, "dwell_s": 0.48}
+{"type": "line_cross", "source": "demo1.mp4", "track_id": 14, "time_s": 6.24, "frame": 156, "line": "v_line", "direction": "to_right", "x": 1003.5, "y": 634.9}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 10, "time_s": 6.24, "frame": 156, "zone": "walkway_left", "start_s": 2.84, "dwell_s": 3.44}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 14, "time_s": 7.04, "frame": 176, "zone": "walkway_right", "start_s": 7.04}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 3, "time_s": 7.16, "frame": 179, "zone": "walkway_right", "start_s": 0.48, "dwell_s": 6.72}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 9, "time_s": 7.76, "frame": 194, "zone": "walkway_left", "start_s": 4.48, "dwell_s": 3.32}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 14, "time_s": 7.72, "frame": 193, "zone": "center", "start_s": 3.96, "dwell_s": 3.8}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 19, "time_s": 8.0, "frame": 200, "zone": "center", "start_s": 8.0}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 2, "time_s": 8.04, "frame": 201, "zone": "walkway_left", "start_s": 4.16, "dwell_s": 3.92}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 4, "time_s": 8.4, "frame": 210, "zone": "walkway_right", "start_s": 0.48, "dwell_s": 7.96}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 19, "time_s": 8.48, "frame": 212, "zone": "center", "start_s": 8.0, "dwell_s": 0.52}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 21, "time_s": 8.68, "frame": 217, "zone": "walkway_right", "start_s": 8.68}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 14, "time_s": 8.6, "frame": 215, "zone": "walkway_right", "start_s": 7.04, "dwell_s": 1.6}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 22, "time_s": 8.92, "frame": 223, "zone": "walkway_right", "start_s": 8.92}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 22, "time_s": 8.92, "frame": 223, "zone": "center", "start_s": 8.92}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 19, "time_s": 9.0, "frame": 225, "zone": "center", "start_s": 9.0}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 22, "time_s": 9.28, "frame": 232, "zone": "walkway_right", "start_s": 8.92, "dwell_s": 0.4}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 22, "time_s": 9.2, "frame": 230, "zone": "center", "start_s": 8.92, "dwell_s": 0.32}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 23, "time_s": 9.64, "frame": 241, "zone": "walkway_right", "start_s": 9.64}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 19, "time_s": 10.08, "frame": 252, "zone": "walkway_right", "start_s": 10.08}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 23, "time_s": 10.16, "frame": 254, "zone": "walkway_right", "start_s": 9.64, "dwell_s": 0.56}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 25, "time_s": 10.68, "frame": 267, "zone": "walkway_left", "start_s": 10.68}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 26, "time_s": 10.88, "frame": 272, "zone": "center", "start_s": 10.88}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 17, "time_s": 11.2, "frame": 280, "zone": "walkway_left", "start_s": 5.68, "dwell_s": 5.56}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 7, "time_s": 11.24, "frame": 281, "zone": "walkway_right", "start_s": 0.48, "dwell_s": 10.8}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 27, "time_s": 11.56, "frame": 289, "zone": "walkway_left", "start_s": 11.56}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 27, "time_s": 12.6, "frame": 315, "zone": "walkway_left", "start_s": 11.56, "dwell_s": 1.08}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 8, "time_s": 12.64, "frame": 316, "zone": "walkway_right", "start_s": 2.24, "dwell_s": 10.44}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 21, "time_s": 14.08, "frame": 352, "zone": "walkway_right", "start_s": 8.68, "dwell_s": 5.44}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 29, "time_s": 14.28, "frame": 357, "zone": "walkway_right", "start_s": 14.28}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 2, "time_s": 15.2, "frame": 380, "zone": "walkway_left", "start_s": 15.2}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 2, "time_s": 15.68, "frame": 392, "zone": "walkway_left", "start_s": 15.2, "dwell_s": 0.52}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 2, "time_s": 15.68, "frame": 392, "zone": "center", "start_s": 4.16, "dwell_s": 11.56}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 19, "time_s": 15.84, "frame": 396, "zone": "walkway_right", "start_s": 10.08, "dwell_s": 5.8}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 30, "time_s": 16.64, "frame": 416, "zone": "walkway_left", "start_s": 16.64}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 25, "time_s": 16.28, "frame": 407, "zone": "walkway_left", "start_s": 10.68, "dwell_s": 5.64}
+{"type": "line_cross", "source": "demo1.mp4", "track_id": 26, "time_s": 17.6, "frame": 440, "line": "v_line", "direction": "to_left", "x": 1003.2, "y": 619.9}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 33, "time_s": 17.72, "frame": 443, "zone": "walkway_left", "start_s": 17.72}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 26, "time_s": 18.12, "frame": 453, "zone": "center", "start_s": 10.88, "dwell_s": 7.28}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 33, "time_s": 18.24, "frame": 456, "zone": "walkway_left", "start_s": 17.72, "dwell_s": 0.56}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 19, "time_s": 18.8, "frame": 470, "zone": "center", "start_s": 9.0, "dwell_s": 9.84}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 16, "time_s": 19.48, "frame": 487, "zone": "center", "start_s": 19.48}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 29, "time_s": 19.68, "frame": 492, "zone": "walkway_right", "start_s": 14.28, "dwell_s": 5.44}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 36, "time_s": 20.16, "frame": 504, "zone": "walkway_left", "start_s": 20.16}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 37, "time_s": 20.76, "frame": 519, "zone": "walkway_left", "start_s": 20.76}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 36, "time_s": 21.08, "frame": 527, "zone": "walkway_left", "start_s": 20.16, "dwell_s": 0.96}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 38, "time_s": 21.92, "frame": 548, "zone": "walkway_left", "start_s": 21.92}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 38, "time_s": 22.12, "frame": 553, "zone": "center", "start_s": 22.12}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 30, "time_s": 22.44, "frame": 561, "zone": "walkway_left", "start_s": 16.64, "dwell_s": 5.84}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 37, "time_s": 22.52, "frame": 563, "zone": "walkway_left", "start_s": 20.76, "dwell_s": 1.8}
+{"type": "line_cross", "source": "demo1.mp4", "track_id": 16, "time_s": 23.0, "frame": 575, "line": "v_line", "direction": "to_right", "x": 1007.4, "y": 828.0}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 36, "time_s": 22.88, "frame": 572, "zone": "walkway_left", "start_s": 22.88}
+{"type": "zone_enter", "source": "demo1.mp4", "track_id": 4, "time_s": 23.88, "frame": 597, "zone": "center", "start_s": 23.88}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 4, "time_s": 24.2, "frame": 605, "zone": "center", "start_s": 23.88, "dwell_s": 0.36}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 16, "time_s": 24.2, "frame": 605, "zone": "center", "start_s": 19.48, "dwell_s": 4.76}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 38, "time_s": 24.2, "frame": 605, "zone": "walkway_left", "start_s": 21.92, "dwell_s": 2.32}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 38, "time_s": 24.2, "frame": 605, "zone": "center", "start_s": 22.12, "dwell_s": 2.12}
+{"type": "zone_exit", "source": "demo1.mp4", "track_id": 36, "time_s": 24.2, "frame": 605, "zone": "walkway_left", "start_s": 22.88, "dwell_s": 1.36}
