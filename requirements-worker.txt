@@ -2,6 +2,7 @@ numpy
 opencv-python
 ultralytics
 lap>=0.5.12
+shapely>=2.0
 supervision
 shapely
 pydantic>=2.7

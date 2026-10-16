@@ -22,7 +22,7 @@ class Track:
 
 
 class PersonTracker:
-    def __init__(self, weights="yolo11n.pt", imgsz=640, conf=0.35,
+    def __init__(self, weights="yolo11n.pt", imgsz=640, conf=0.55,
                  device=0, quantize=32, tracker="configs/bytetrack_custom.yaml"):
         self.model = YOLO(weights)
         self.imgsz = imgsz

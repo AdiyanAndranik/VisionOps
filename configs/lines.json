@@ -1,0 +1,16 @@
+{
+  "lines": [
+    {
+      "name": "h_line",
+      "points": [[2, 552], [1914, 548]],
+      "pos_label": "up",
+      "neg_label": "down"
+    },
+    {
+      "name": "v_line",
+      "points": [[1012, 1054], [998, 366]],
+      "pos_label": "to_left",
+      "neg_label": "to_right"
+    }
+  ]
+}

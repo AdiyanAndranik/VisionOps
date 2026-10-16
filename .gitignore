@@ -237,3 +237,4 @@ data/
 *.pt
 *.onnx
 outputs/
+results/_*.yaml
