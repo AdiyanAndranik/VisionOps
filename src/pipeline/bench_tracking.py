@@ -61,11 +61,13 @@ def main():
                     help="your manual count of distinct people in the clip")
     ap.add_argument("--out", default="results/tracking_bench.csv")
     ap.add_argument("--imgsz", type=int, default=640)
+    ap.add_argument("--weights", nargs="+", default=["yolo11n.pt", "yolo11s.pt"])
+    ap.add_argument("--confs", nargs="+", type=float, default=[0.35, 0.45, 0.55])
+    ap.add_argument("--trackers", nargs="+",
+                    default=["bytetrack.yaml", "configs/bytetrack_custom.yaml"])
     args = ap.parse_args()
 
-    weights_list = ["yolo11n.pt", "yolo11s.pt"]
-    confs = [0.35, 0.45, 0.55]
-    trackers = ["bytetrack.yaml", "configs/bytetrack_custom.yaml"]
+    weights_list, confs, trackers = args.weights, args.confs, args.trackers
 
     gpu = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu"
     rows = []

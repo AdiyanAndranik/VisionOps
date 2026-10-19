@@ -1,0 +1,11 @@
+{
+  "weights": "yolo11n.pt",
+  "conf": 0.55,
+  "imgsz": 640,
+  "confirm_seconds": 0.0,
+  "tracker": "configs/bytetrack_custom.yaml",
+  "sequences": [
+    "MOT17-02-FRCNN",
+    "MOT17-04-FRCNN"
+  ]
+}

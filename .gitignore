@@ -238,3 +238,6 @@ data/
 *.onnx
 outputs/
 results/_*.yaml
+external/
+results/mot17/gt
+results/mot17/trackers/**/data/
