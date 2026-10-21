@@ -1,6 +1,9 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
+import ultralytics
+import yaml
 from ultralytics import YOLO
 
 PERSON_CLASS = 0
@@ -25,11 +28,29 @@ class PersonTracker:
     def __init__(self, weights="yolo11n.pt", imgsz=640, conf=0.55,
                  device=0, quantize=32, tracker="configs/bytetrack_custom.yaml"):
         self.model = YOLO(weights)
+        self.weights = weights
         self.imgsz = imgsz
         self.conf = conf
         self.device = device
         self.quantize = quantize
         self.tracker = tracker
+
+    def config(self) -> dict:
+        """Settings that shaped the tracks, for the run snapshot."""
+        try:
+            params = yaml.safe_load(Path(self.tracker).read_text(encoding="utf-8"))
+        except (OSError, yaml.YAMLError):
+            params = None
+        return {
+            "weights": self.weights,
+            "imgsz": self.imgsz,
+            "conf": self.conf,
+            "device": self.device,
+            "quantize": self.quantize,
+            "tracker": self.tracker,
+            "tracker_params": params,
+            "ultralytics": ultralytics.__version__,
+        }
 
     def __call__(self, frame: np.ndarray) -> list[Track]:
         result = self.model.track(

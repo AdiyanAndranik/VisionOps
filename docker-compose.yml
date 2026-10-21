@@ -6,9 +6,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-visionops}
       POSTGRES_DB: ${POSTGRES_DB:-visionops}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-visionops}"]
       interval: 5s
@@ -29,7 +30,6 @@ services:
       db:
         condition: service_healthy
     command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
-
 
 volumes:
   pgdata:
