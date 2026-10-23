@@ -22,14 +22,24 @@ services:
       dockerfile: docker/api.Dockerfile
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-visionops}:${POSTGRES_PASSWORD:-visionops}@db:5432/${POSTGRES_DB:-visionops}
+      ARTIFACTS_DIR: /artifacts
     ports:
       - "8000:8000"
     volumes:
       - ./src:/app/src
+      - ./artifacts:/artifacts:ro
     depends_on:
       db:
         condition: service_healthy
     command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
 
 volumes:
   pgdata:

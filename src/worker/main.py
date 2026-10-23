@@ -1,5 +1,5 @@
 """Run the full pipeline on a video and write events as JSON lines,
-optionally also to Postgres.
+optionally also to Postgres (with a background frame and heatmap per run).
 
     python -m src.worker.main --video data/demo1.mp4
     python -m src.worker.main --video data/demo1.mp4 --db
@@ -15,6 +15,7 @@ import cv2
 
 from src.events.schema import JsonlWriter
 from src.pipeline.tracker import PersonTracker
+from src.worker.artifacts import ArtifactWriter
 from src.worker.pipeline import EventPipeline
 
 
@@ -29,6 +30,7 @@ def parse_args(argv=None):
     p.add_argument("--max-frames", type=int, default=0, help="stop after N frames (0 = all)")
     p.add_argument("--db", action="store_true", help="also write the run and its events to Postgres")
     p.add_argument("--db-url", default="", help="Postgres connection string for --db (default: built from .env)")
+    p.add_argument("--artifacts-dir", default="artifacts", help="where --db runs save frame.jpg and heatmap.jpg")
     return p.parse_args(argv)
 
 
@@ -75,6 +77,8 @@ def main(argv=None) -> int:
     status = "done"
     t0 = time.perf_counter()
     try:
+        # images are only for runs in the db, the dashboard needs the run id
+        art = ArtifactWriter(args.artifacts_dir, db.run_id, fps) if db else None
         with JsonlWriter(args.out) as out:
 
             def emit(ev: dict) -> None:
@@ -90,6 +94,8 @@ def main(argv=None) -> int:
                         break
                     for ev in pipe.update(tracker(frame)):
                         emit(ev)
+                    if art:
+                        art.update(frame, pipe.last_confirmed)
                     frames += 1
                     if args.max_frames and frames >= args.max_frames:
                         break
@@ -97,6 +103,9 @@ def main(argv=None) -> int:
                 cap.release()
             for ev in pipe.finish():
                 emit(ev)
+        # before finish_run, so a client that reacts to run_done finds the heatmap
+        if art:
+            art.finish()
     except BaseException:
         status = "failed"
         raise
@@ -111,11 +120,9 @@ def main(argv=None) -> int:
         print(f"{k}: {counts[k]}")
     print(f"written to {args.out}")
     if db:
-        print(f"saved to db as run {db.run_id}")
+        print(f"saved to db as run {db.run_id}, images in {args.artifacts_dir}/{db.run_id}")
     return 0
 
 
 if __name__ == "__main__":
     sys.exit(main())
-
-    

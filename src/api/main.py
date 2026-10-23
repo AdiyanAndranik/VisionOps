@@ -9,11 +9,16 @@ from sqlalchemy.ext.asyncio import create_async_engine
 
 from src.api.live import Hub, listen_forever
 
+from pathlib import Path
+
+from fastapi.responses import FileResponse
+
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
     "postgresql+asyncpg://visionops:visionops@localhost:5433/visionops",
 )
 LISTEN_DSN = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://", 1)
+ARTIFACTS_DIR = Path(os.environ.get("ARTIFACTS_DIR", "artifacts"))
 
 engine = create_async_engine(DATABASE_URL, pool_pre_ping=True)
 hub = Hub()
@@ -84,6 +89,24 @@ async def get_run(run_id: int):
     if row is None:
         raise HTTPException(status_code=404, detail="run not found")
     return dict(row)
+
+
+def _artifact(run_id: int, name: str) -> FileResponse:
+    path = ARTIFACTS_DIR / str(run_id) / name  # run_id is an int, no path tricks possible
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail=f"{name} not available for this run")
+    # no-cache = always revalidate (cheap 304), because run ids restart after down -v
+    return FileResponse(path, media_type="image/jpeg", headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/runs/{run_id}/frame")
+async def run_frame(run_id: int):
+    return _artifact(run_id, "frame.jpg")
+
+
+@app.get("/runs/{run_id}/heatmap")
+async def run_heatmap(run_id: int):
+    return _artifact(run_id, "heatmap.jpg")
 
 
 @app.get("/runs/{run_id}/events")
