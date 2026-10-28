@@ -1,9 +1,10 @@
 import asyncio
 import os
+import re
 from contextlib import asynccontextmanager
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException, Query, WebSocket
+from fastapi import FastAPI, HTTPException, Query, Request, WebSocket
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 
@@ -11,7 +12,7 @@ from src.api.live import Hub, listen_forever
 
 from pathlib import Path
 
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response, StreamingResponse
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
@@ -88,7 +89,9 @@ async def get_run(run_id: int):
         ).mappings().first()
     if row is None:
         raise HTTPException(status_code=404, detail="run not found")
-    return dict(row)
+    out = dict(row)
+    out["has_video"] = (ARTIFACTS_DIR / str(run_id) / VIDEO_NAME).is_file()
+    return out
 
 
 def _artifact(run_id: int, name: str) -> FileResponse:
@@ -107,6 +110,64 @@ async def run_frame(run_id: int):
 @app.get("/runs/{run_id}/heatmap")
 async def run_heatmap(run_id: int):
     return _artifact(run_id, "heatmap.jpg")
+
+VIDEO_NAME = "annotated.mp4"
+VIDEO_CHUNK = 1024 * 1024
+_RANGE_RE = re.compile(r"^bytes=(\d*)-(\d*)$")
+
+
+def _parse_range(header: str, size: int):
+    """Returns (start, end) inclusive, None to ignore the header (malformed or
+    multi-range, the full file is sent), or "bad" if it can't be satisfied."""
+    m = _RANGE_RE.match(header.strip())
+    if not m or (m.group(1) == "" and m.group(2) == ""):
+        return None
+    if m.group(1) == "":  # suffix form: the last N bytes
+        n = int(m.group(2))
+        if n == 0:
+            return "bad"
+        return max(size - n, 0), size - 1
+    start = int(m.group(1))
+    end = min(int(m.group(2)), size - 1) if m.group(2) else size - 1
+    if start >= size or start > end:
+        return "bad"
+    return start, end
+
+
+def _file_chunks(path: Path, start: int, length: int):
+    with path.open("rb") as f:
+        f.seek(start)
+        left = length
+        while left > 0:
+            data = f.read(min(VIDEO_CHUNK, left))
+            if not data:
+                break
+            left -= len(data)
+            yield data
+
+
+@app.get("/runs/{run_id}/video")
+async def run_video(run_id: int, request: Request):
+    """The annotated video. Supports Range requests, so the browser can seek."""
+    path = ARTIFACTS_DIR / str(run_id) / VIDEO_NAME
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail=f"{VIDEO_NAME} not available for this run")
+    size = path.stat().st_size
+    headers = {"Accept-Ranges": "bytes", "Cache-Control": "no-cache"}
+
+    rng = request.headers.get("range")
+    parsed = _parse_range(rng, size) if rng else None
+    if parsed == "bad":
+        return Response(status_code=416, headers={**headers, "Content-Range": f"bytes */{size}"})
+    if parsed is None:
+        start, end, code = 0, size - 1, 200
+    else:
+        (start, end), code = parsed, 206
+        headers["Content-Range"] = f"bytes {start}-{end}/{size}"
+    length = end - start + 1
+    headers["Content-Length"] = str(length)
+    return StreamingResponse(_file_chunks(path, start, length), status_code=code,
+                             media_type="video/mp4", headers=headers)
 
 
 @app.get("/runs/{run_id}/events")

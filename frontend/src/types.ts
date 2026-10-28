@@ -31,6 +31,7 @@ export interface RunDetail extends Run {
     zones?: { zones: ZoneCfg[] }
     lines?: { lines: LineCfg[] }
   } | null
+  has_video?: boolean
 }
 
 export type EventType = 'line_cross' | 'zone_enter' | 'zone_exit'

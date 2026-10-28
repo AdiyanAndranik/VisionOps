@@ -1,6 +1,7 @@
 """API tests against the real db (docker compose up -d db). Skipped if it is not reachable."""
 import pytest
 from fastapi.testclient import TestClient
+import src.api.main as api_main
 
 psycopg = pytest.importorskip("psycopg")
 
@@ -122,3 +123,93 @@ def test_ws_live_events(client):
                 assert ws.receive_json() == {"kind": "run_done", "status": "done"}
         finally:
             conn.execute("DELETE FROM runs WHERE id = %s", (rid,))
+
+
+# ---- annotated video: Range handling and has_video ----
+
+VIDEO_BYTES = bytes(range(256)) * 40  # 10240 bytes, every byte position is checkable
+VIDEO_SIZE = len(VIDEO_BYTES)
+
+
+@pytest.fixture
+def artifacts(tmp_path, monkeypatch):
+    monkeypatch.setattr(api_main, "ARTIFACTS_DIR", tmp_path)
+    return tmp_path
+
+
+@pytest.fixture
+def video(artifacts, run_id):
+    d = artifacts / str(run_id)
+    d.mkdir()
+    (d / "annotated.mp4").write_bytes(VIDEO_BYTES)
+
+
+def test_has_video_false_without_file(client, run_id, artifacts):
+    assert client.get(f"/runs/{run_id}").json()["has_video"] is False
+
+
+def test_has_video_true_with_file(client, run_id, video):
+    assert client.get(f"/runs/{run_id}").json()["has_video"] is True
+
+
+def test_video_404_without_file(client, run_id, artifacts):
+    assert client.get(f"/runs/{run_id}/video").status_code == 404
+
+
+def test_video_full_file(client, run_id, video):
+    r = client.get(f"/runs/{run_id}/video")
+    assert r.status_code == 200
+    assert r.headers["accept-ranges"] == "bytes"
+    assert r.headers["content-type"] == "video/mp4"
+    assert int(r.headers["content-length"]) == VIDEO_SIZE
+    assert r.content == VIDEO_BYTES
+
+
+def test_video_range_start_end(client, run_id, video):
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": "bytes=0-99"})
+    assert r.status_code == 206
+    assert r.headers["content-range"] == f"bytes 0-99/{VIDEO_SIZE}"
+    assert int(r.headers["content-length"]) == 100
+    assert r.content == VIDEO_BYTES[:100]
+
+
+def test_video_range_open_ended(client, run_id, video):
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": "bytes=10000-"})
+    assert r.status_code == 206
+    assert r.headers["content-range"] == f"bytes 10000-{VIDEO_SIZE - 1}/{VIDEO_SIZE}"
+    assert r.content == VIDEO_BYTES[10000:]
+
+
+def test_video_range_suffix(client, run_id, video):
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": "bytes=-100"})
+    assert r.status_code == 206
+    assert r.headers["content-range"] == f"bytes {VIDEO_SIZE - 100}-{VIDEO_SIZE - 1}/{VIDEO_SIZE}"
+    assert r.content == VIDEO_BYTES[-100:]
+
+
+def test_video_range_end_past_file_is_clamped(client, run_id, video):
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": "bytes=10000-99999"})
+    assert r.status_code == 206
+    assert r.headers["content-range"] == f"bytes 10000-{VIDEO_SIZE - 1}/{VIDEO_SIZE}"
+    assert r.content == VIDEO_BYTES[10000:]
+
+
+def test_video_range_across_chunks(client, run_id, video, monkeypatch):
+    monkeypatch.setattr(api_main, "VIDEO_CHUNK", 1000)  # force several reads
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": "bytes=500-3499"})
+    assert r.status_code == 206
+    assert r.content == VIDEO_BYTES[500:3500]
+
+
+@pytest.mark.parametrize("header", ["bytes=999999-", "bytes=-0", "bytes=500-100"])
+def test_video_range_not_satisfiable(client, run_id, video, header):
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": header})
+    assert r.status_code == 416
+    assert r.headers["content-range"] == f"bytes */{VIDEO_SIZE}"
+
+
+@pytest.mark.parametrize("header", ["bytes=abc", "bytes=0-1,5-6", "items=0-10", "bytes=-"])
+def test_video_malformed_or_multi_range_sends_full_file(client, run_id, video, header):
+    r = client.get(f"/runs/{run_id}/video", headers={"Range": header})
+    assert r.status_code == 200
+    assert r.content == VIDEO_BYTES

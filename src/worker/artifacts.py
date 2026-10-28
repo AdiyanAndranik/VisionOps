@@ -18,6 +18,8 @@ EDGE_MARGIN = 4
 JPEG_QUALITY = 90
 FRAME_NAME = "frame.jpg"
 HEATMAP_NAME = "heatmap.jpg"
+VIDEO_NAME = "annotated.mp4"
+VIDEO_TMP_NAME = "annotated.tmp.mp4"
 
 
 def _write(path: Path, img: np.ndarray) -> None:
@@ -31,8 +33,8 @@ class ArtifactWriter:
         self.dir.mkdir(parents=True, exist_ok=True)
         # run ids restart after `docker compose down -v`, so never leave an
         # old run's images behind for a new run with the same id
-        (self.dir / FRAME_NAME).unlink(missing_ok=True)
-        (self.dir / HEATMAP_NAME).unlink(missing_ok=True)
+        for name in (FRAME_NAME, HEATMAP_NAME, VIDEO_NAME, VIDEO_TMP_NAME):
+            (self.dir / name).unlink(missing_ok=True)
         self.fps = fps
         self.background: np.ndarray | None = None
         self.heat: HeatmapAccumulator | None = None

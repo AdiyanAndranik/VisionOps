@@ -1,15 +1,18 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { EVENTS_LIMIT } from '../api'
 import FrameView from '../components/FrameView'
+import RunVideo from '../components/RunVideo'
 import { basename, num } from '../format'
 import type { EventType } from '../types'
 import { useRunLive } from '../useRunLive'
+
 
 type Filter = EventType | 'all'
 type SortKey = 'time_s' | 'track_id' | 'dwell_s'
 
 const FILTERS: Filter[] = ['all', 'line_cross', 'zone_enter', 'zone_exit']
+const LEAD_S = 1
 
 const TYPE_LABEL: Record<EventType, string> = {
   line_cross: 'line cross',
@@ -31,6 +34,7 @@ function RunView({ runId }: { runId: number }) {
   const { run, summary, events, loaded, error, conn } = useRunLive(runId)
 
   const [filter, setFilter] = useState<Filter>('all')
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [trackQuery, setTrackQuery] = useState('')
   const [sortKey, setSortKey] = useState<SortKey>('time_s')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
@@ -74,6 +78,15 @@ function RunView({ runId }: { runId: number }) {
   const visitTotal = summary.zones.reduce((s, z) => s + z.visits, 0)
   const eventTotal = Object.values(summary.events).reduce((s, n) => s + (n ?? 0), 0)
   const lengthS = run.fps && run.frame_count ? run.frame_count / run.fps : null
+  const showVideo = run.status === 'done' && run.has_video === true
+
+  function seekTo(t: number) {
+    const v = videoRef.current
+    if (!v) return
+    v.currentTime = Math.max(0, t - LEAD_S)
+    v.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    void v.play().catch(() => {})
+  }
 
   function toggleSort(key: SortKey) {
     if (key === sortKey) {
@@ -125,7 +138,7 @@ function RunView({ runId }: { runId: number }) {
           <div className="value">{eventTotal}</div>
         </div>
       </div>
-
+      {showVideo && <RunVideo run={run} videoRef={videoRef} />}
       <FrameView run={run} events={events} />
 
       <div className="grid2">
@@ -238,7 +251,11 @@ function RunView({ runId }: { runId: number }) {
             </tr>
           )}
           {visible.map((e) => (
-            <tr key={e.id}>
+            <tr
+              key={e.id}
+              className={showVideo ? 'clickable' : undefined}
+              onClick={showVideo ? () => seekTo(e.time_s) : undefined}
+            >
               <td className="num">{num(e.time_s)}</td>
               <td>
                 <span className={`tag ${e.type}`}>{TYPE_LABEL[e.type]}</span>
