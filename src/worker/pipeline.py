@@ -23,6 +23,7 @@ class EventPipeline:
         self.dwell = DwellTracker(zones, fps=fps)
         # confirmed tracks of the last update() call, for other consumers (heatmap)
         self.last_confirmed: list = []
+        self.seen_ids: set[int] = set()
 
     @classmethod
     def from_files(cls, source: str, fps: float, zones_path: str, lines_path: str) -> "EventPipeline":
@@ -48,6 +49,7 @@ class EventPipeline:
         """Call once per frame with all tracks from the tracker."""
         confirmed = list(self.confirm.update(tracks))
         self.last_confirmed = confirmed
+        self.seen_ids.update(t.id for t in confirmed)
         out = [line_event(self.source, e, self.fps) for e in self.lines.update(confirmed)]
         out += [zone_event(self.source, e) for e in self.dwell.update(confirmed)]
         return out

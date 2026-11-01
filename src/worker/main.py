@@ -160,6 +160,7 @@ def main(argv=None) -> int:
 
     elapsed = time.perf_counter() - t0
     print(f"{frames} frames in {elapsed:.1f}s ({frames / elapsed:.1f} fps), source {fps:.1f} fps")
+    print(f"unique confirmed tracks: {len(pipe.seen_ids)}")
     for k in ("line_cross", "zone_enter", "zone_exit"):
         print(f"{k}: {counts[k]}")
     print(f"written to {args.out}")
