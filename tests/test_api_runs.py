@@ -48,6 +48,10 @@ def test_list_runs_contains_run(client, run_id):
     assert r.status_code == 200
     assert run_id in [x["id"] for x in r.json()]
 
+def test_list_runs_has_counts(client, run_id):
+    row = next(x for x in client.get("/runs").json() if x["id"] == run_id)
+    assert (row["line_crossings"], row["zone_visits"], row["events"]) == (1, 1, 3)
+
 
 def test_get_run(client, run_id):
     r = client.get(f"/runs/{run_id}")

@@ -1,0 +1,16 @@
+{
+  "lines": [
+    {
+      "name": "store_door_left",
+      "points": [[274, 858], [584, 724]],
+      "pos_label": "in",
+      "neg_label": "out"
+    },
+    {
+      "name": "store_door_right",
+      "points": [[804, 606], [894, 554]],
+      "pos_label": "in",
+      "neg_label": "out"
+    }
+  ]
+}

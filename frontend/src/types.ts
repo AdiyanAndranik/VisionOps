@@ -10,6 +10,9 @@ export interface Run {
   width: number | null
   height: number | null
   frame_count: number | null
+  line_crossings?: number
+  zone_visits?: number
+  events?: number
 }
 
 export type Point = [number, number]

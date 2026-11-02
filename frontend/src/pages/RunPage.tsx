@@ -7,11 +7,11 @@ import { basename, num } from '../format'
 import type { EventType } from '../types'
 import { useRunLive } from '../useRunLive'
 
-
 type Filter = EventType | 'all'
 type SortKey = 'time_s' | 'track_id' | 'dwell_s'
 
 const FILTERS: Filter[] = ['all', 'line_cross', 'zone_enter', 'zone_exit']
+// seek a bit before the event so you see it happen, not just the moment it was counted
 const LEAD_S = 1
 
 const TYPE_LABEL: Record<EventType, string> = {
@@ -120,6 +120,8 @@ function RunView({ runId }: { runId: number }) {
         </span>
       </div>
 
+      {showVideo && <RunVideo run={run} videoRef={videoRef} />}
+
       <div className="cards">
         <div className="card">
           <div className="label">Video length</div>
@@ -138,7 +140,7 @@ function RunView({ runId }: { runId: number }) {
           <div className="value">{eventTotal}</div>
         </div>
       </div>
-      {showVideo && <RunVideo run={run} videoRef={videoRef} />}
+
       <FrameView run={run} events={events} />
 
       <div className="grid2">

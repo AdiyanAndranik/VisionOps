@@ -69,15 +69,22 @@ async def _require_run(conn, run_id: int) -> None:
 
 @app.get("/runs")
 async def list_runs(limit: int = Query(50, ge=1, le=200), offset: int = Query(0, ge=0)):
+    sql = """
+        SELECT r.id, r.source, r.status, r.started_at, r.finished_at, r.fps, r.width,
+               r.height, r.frame_count,
+               c.line_crossings, c.zone_visits, c.events
+        FROM runs r
+        LEFT JOIN LATERAL (
+            SELECT count(*) FILTER (WHERE type = 'line_cross') AS line_crossings,
+                   count(*) FILTER (WHERE type = 'zone_exit') AS zone_visits,
+                   count(*) AS events
+            FROM events e WHERE e.run_id = r.id
+        ) c ON true
+        ORDER BY r.id DESC LIMIT :limit OFFSET :offset
+    """
     async with engine.connect() as conn:
-        rows = (
-            await conn.execute(
-                text(f"SELECT {RUN_COLS} FROM runs ORDER BY id DESC LIMIT :limit OFFSET :offset"),
-                {"limit": limit, "offset": offset},
-            )
-        ).mappings().all()
+        rows = (await conn.execute(text(sql), {"limit": limit, "offset": offset})).mappings().all()
     return [dict(r) for r in rows]
-
 
 @app.get("/runs/{run_id}")
 async def get_run(run_id: int):

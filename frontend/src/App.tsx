@@ -7,7 +7,9 @@ export default function App() {
     <div className="app">
       <header>
         <Link to="/" className="brand">
+          <img src="/favicon.svg" alt="" width={22} height={22} />
           VisionOps
+          <span className="tagline">video analytics</span>
         </Link>
       </header>
       <main>
